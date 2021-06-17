@@ -12,6 +12,7 @@ import (
 	"github.com/AthenZ/athenz/libs/go/zmssvctoken"
 )
 
+// AthenzConf wraps configuration information for contacting ZMS and ZTS services.
 type AthenzConf struct {
 	ZtsUrl        string `json:"ztsUrl"`
 	ZmsUrl        string `json:"zmsUrl"`
@@ -42,6 +43,8 @@ func ReadConf(athenzConf string) (*AthenzConf, error) {
 	return aConf, nil
 }
 
+// FetchZTSPublicKey fetches the ZTS public key using the given
+// public key ID in keyVersion.
 func (conf *AthenzConf) FetchZTSPublicKey(keyVersion string) ([]byte, error) {
 	for _, publicKey := range conf.ZtsPublicKeys {
 		if publicKey.Id == keyVersion {
@@ -55,6 +58,8 @@ func (conf *AthenzConf) FetchZTSPublicKey(keyVersion string) ([]byte, error) {
 	return nil, fmt.Errorf("ZTS Public key with %s id not found", keyVersion)
 }
 
+// FetchZMSPublicKey fetches the ZMS public key using the given
+// public key ID in keyVersion.
 func (conf *AthenzConf) FetchZMSPublicKey(keyVersion string) ([]byte, error) {
 	for _, publicKey := range conf.ZmsPublicKeys {
 		if publicKey.Id == keyVersion {

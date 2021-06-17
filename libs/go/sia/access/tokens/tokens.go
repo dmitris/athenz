@@ -20,10 +20,6 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"github.com/AthenZ/athenz/clients/go/zts"
-	"github.com/AthenZ/athenz/libs/go/sia/access/config"
-	siafile "github.com/AthenZ/athenz/libs/go/sia/file"
-	tlsconfig "github.com/AthenZ/athenz/libs/go/tls/config"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -31,12 +27,17 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+
+	"github.com/AthenZ/athenz/clients/go/zts"
+	"github.com/AthenZ/athenz/libs/go/sia/access/config"
+	siafile "github.com/AthenZ/athenz/libs/go/sia/file"
+	tlsconfig "github.com/AthenZ/athenz/libs/go/tls/config"
 )
 
 const USER_AGENT = "User-Agent"
 
 // ToBeRefreshed looks into /var/lib/sia/tokens folder and returns the list of tokens whose
-// age is half of their validity
+// age is half of their validity.
 func ToBeRefreshed(tokenDir string, tokens []config.AccessToken) ([]config.AccessToken, []error) {
 	file := func(domain, name string) string {
 		return filepath.Join(tokenDir, domain, name)
@@ -79,7 +80,8 @@ func ToBeRefreshed(tokenDir string, tokens []config.AccessToken) ([]config.Acces
 	return refresh, errs
 }
 
-//func Fetch(ztsUrl, domain string, svcs []string, tokens []ac.AccessToken) []error {
+// Fetch fetches tokens and writes them to the file specified
+// in the configuration.
 func Fetch(opts *config.TokenOptions) []error {
 	errs := []error{}
 	tlsConfigs, e := loadSvcCerts(opts)

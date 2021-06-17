@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+// ExtractInstanceId extracts the instanceid field from the x509
+// certificate SAN, URIs field.
 func ExtractInstanceId(x509Cert x509.Certificate) (string, error) {
 
 	// first go through certificate values and see

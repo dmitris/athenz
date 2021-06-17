@@ -17,10 +17,11 @@
 package stssession
 
 import (
+	"io"
+
 	"github.com/AthenZ/athenz/libs/go/sia/aws/logutil"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"io"
 )
 
 func New(useRegionalSTS bool, region string, sysLogger io.Writer) (*session.Session, error) {
@@ -33,8 +34,8 @@ func New(useRegionalSTS bool, region string, sysLogger io.Writer) (*session.Sess
 				Region:   aws.String(region),
 			},
 		})
-	} else {
-		logutil.LogInfo(sysLogger, "Creating session to global STS endpoint\n")
-		return session.NewSession()
 	}
+	logutil.LogInfo(sysLogger, "Creating session to global STS endpoint\n")
+	return session.NewSession()
+
 }
